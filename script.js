@@ -3,6 +3,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const pageContents = document.querySelectorAll('.page-content');
     const tabs = document.querySelectorAll('.tab');
     const tabDescriptions = document.querySelectorAll('.tab-description');
+    const toggleButton = document.getElementById('toggleButton');
+    const categoriesSection = document.getElementById('categories');
+    const contentSection = document.getElementById('content');
 
     // Initial state for categories
     pageContents.forEach(pageContent => {
@@ -49,6 +52,12 @@ document.addEventListener('DOMContentLoaded', () => {
             tabDescriptions.forEach(tabDescription => {
                 tabDescription.style.display = 'none';
             });
+
+            // Show toggle button
+            toggleButton.style.display = 'block';
+
+            // Hide categories
+            categoriesSection.style.display = 'none';
         });
     });
 
@@ -68,13 +77,43 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add active class to the clicked tab
             tab.classList.add('active');
 
-            // Keep default message visible
+            // Show default message only if it was visible
             if (defaultMessageVisible) {
                 const defaultMessage = document.querySelector('.default-message');
                 if (defaultMessage) {
                     defaultMessage.style.display = 'block';
+                    defaultMessageVisible = true;
                 }
             }
+
+            // Hide toggle button
+            toggleButton.style.display = 'none';
+
+            // Show categories
+            categoriesSection.style.display = 'flex';
         });
+    });
+
+    toggleButton.addEventListener('click', () => {
+        // Hide all page contents and tab descriptions
+        pageContents.forEach(pageContent => {
+            pageContent.style.display = 'none';
+        });
+        tabDescriptions.forEach(tabDescription => {
+            tabDescription.style.display = 'none';
+        });
+
+        // Show default message
+        const defaultMessage = document.querySelector('.default-message');
+        if (defaultMessage) {
+            defaultMessage.style.display = 'block';
+            defaultMessageVisible = true;
+        }
+
+        // Hide toggle button
+        toggleButton.style.display = 'none';
+
+        // Show categories
+        categoriesSection.style.display = 'flex';
     });
 });
