@@ -350,6 +350,61 @@ footer {
     transition: transform 0.3s ease;
     border-radius: 50%; /* Rounded edges */
 }
+/* Contact Form Styles */
+.contact-form {
+    padding: 20px;
+    background-color: rgba(17, 17, 17, 0.7);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    text-align: center;
+    animation: fadeIn 1s ease-in-out;
+}
+.contact-form h2 {
+    font-size: 1.5em;
+    color: #fff;
+    margin-bottom: 20px;
+}
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+.form-group label {
+    display: block;
+    font-size: 1em;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-family: 'Open Sans', sans-serif;
+}
+.form-group textarea {
+    resize: none;
+}
+.submit-button {
+    background-color: rgba(204, 0, 0, 0.8);
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 700;
+    color: #fff;
+    transition: transform 0.3s ease;
+}
+.submit-button:hover {
+    transform: scale(1.05);
+}
+#formMessage {
+    margin-top: 15px;
+    font-size: 1em;
+    color: #ccc;
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
@@ -379,7 +434,7 @@ body {
     }
     .title {
         font-size: 1.8em;
-        margin-bottom: 10px; /* Ensure some space between title and subtitle */
+        margin-bottom: 10px;
     }
     .subtitle {
         font-size: 1em;
@@ -433,7 +488,7 @@ body {
     }
     .tab {
         padding: 10px 15px;
-        flex: 1 1 calc(50% - 10px); /* Two columns on smaller screens */
+        flex: 1 1 calc(50% - 10px);
         margin-bottom: 10px;
     }
     .start-journey {
@@ -455,7 +510,7 @@ body {
 }
 @media (max-width: 400px) {
     .tab {
-        flex: 1 1 100%; /* Full width on very small screens */
+        flex: 1 1 100%;
     }
     .social-icon {
         width: 30px;
