@@ -122,10 +122,10 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         // Initialize EmailJS with your service ID
-        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+        emailjs.init('service_mpphn2l'); // Replace with your EmailJS public key
 
         // Send the form data using EmailJS
-        emailjs.sendForm('service_mpphn2l', 'template_id', this) // Replace 'template_id' with your actual template ID
+        emailjs.sendForm('service_mpphn2l', 'template_3g9ookc', this) // Replace 'template_id' with your actual template ID
             .then(function (response) {
                 console.log('SUCCESS!', response.status, response.text);
                 const formMessage = document.getElementById('formMessage');
