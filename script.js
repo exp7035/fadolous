@@ -116,4 +116,27 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show categories
         categoriesSection.style.display = 'flex';
     });
+
+    // Handle form submission using EmailJS
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        // Initialize EmailJS with your service ID
+        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+
+        // Send the form data using EmailJS
+        emailjs.sendForm('service_mpphn2l', 'template_id', this) // Replace 'template_id' with your actual template ID
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
+                const formMessage = document.getElementById('formMessage');
+                formMessage.textContent = 'Your message has been sent successfully!';
+                formMessage.style.color = '#4caf50';
+                document.getElementById('contactForm').reset(); // Clear the form
+            }, function (error) {
+                console.error('FAILED...', error);
+                const formMessage = document.getElementById('formMessage');
+                formMessage.textContent = 'There was an error sending your message. Please try again.';
+                formMessage.style.color = '#f44336';
+            });
+    });
 });
