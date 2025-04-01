@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize EmailJS with your Public Key
+    (function () {
+        emailjs.init('CnBmP7pLlxaAlW9TI'); // Replace with your actual Public Key
+    })();
+
+    // Select DOM elements
     const categories = document.querySelectorAll('.category');
     const pageContents = document.querySelectorAll('.page-content');
     const tabs = document.querySelectorAll('.tab');
@@ -7,48 +13,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoriesSection = document.getElementById('categories');
     const contentSection = document.getElementById('content');
 
-    // Initial state for categories
+    // Create and append default message
+    const defaultMessage = document.createElement('div');
+    defaultMessage.className = 'default-message';
+    defaultMessage.innerHTML = '<h2>My Services</h2><p>Select a category to see more information.</p>';
+    contentSection.appendChild(defaultMessage);
+
+    let defaultMessageVisible = true;
+
+    // Hide all page contents initially
     pageContents.forEach(pageContent => {
         pageContent.style.display = 'none';
     });
 
-    // Initial state for tabs
-    tabs.forEach(tab => {
-        tab.classList.remove('active');
-    });
+    // Hide all tab descriptions initially
     tabDescriptions.forEach(tabDescription => {
         tabDescription.style.display = 'none';
     });
 
-    // Show a default message when no category or tab is selected
-    const defaultMessage = document.createElement('div');
-    defaultMessage.className = 'default-message';
-    defaultMessage.innerHTML = '<h2>My Services</h2><p>Select a category to see more information.</p>';
-    document.querySelector('.content').appendChild(defaultMessage);
-
-    let defaultMessageVisible = true;
-
+    // Category click event listener
     categories.forEach(category => {
         category.addEventListener('click', () => {
+            console.log('Category clicked:', category);
+
+            // Get the target page ID from the data attribute
             const targetPage = category.getAttribute('data-page');
+
+            // Hide all page contents
             pageContents.forEach(pageContent => {
-                if (pageContent.id === targetPage) {
-                    pageContent.style.display = 'block';
-                } else {
-                    pageContent.style.display = 'none';
-                }
+                pageContent.style.display = 'none';
             });
+
+            // Show the selected page content
+            const selectedPage = document.getElementById(targetPage);
+            if (selectedPage) {
+                selectedPage.style.display = 'block';
+            }
 
             // Hide default message
             if (defaultMessageVisible) {
-                const defaultMessage = document.querySelector('.default-message');
-                if (defaultMessage) {
-                    defaultMessage.style.display = 'none';
-                    defaultMessageVisible = false;
-                }
+                defaultMessage.style.display = 'none';
+                defaultMessageVisible = false;
             }
 
-            // Hide tab descriptions
+            // Hide all tab descriptions
             tabDescriptions.forEach(tabDescription => {
                 tabDescription.style.display = 'none';
             });
@@ -56,87 +64,115 @@ document.addEventListener('DOMContentLoaded', () => {
             // Show toggle button
             toggleButton.style.display = 'block';
 
-            // Hide categories
+            // Hide categories section
             categoriesSection.style.display = 'none';
         });
     });
 
+    // Tab click event listener
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
+            console.log('Tab clicked:', tab);
+
+            // Get the target tab description ID from the data attribute
             const targetTab = tab.getAttribute('data-tab');
+
+            // Hide all tab descriptions
             tabDescriptions.forEach(tabDescription => {
-                if (tabDescription.id === targetTab) {
-                    tabDescription.style.display = 'block';
-                } else {
-                    tabDescription.style.display = 'none';
-                }
+                tabDescription.style.display = 'none';
             });
+
+            // Show the selected tab description
+            const selectedTab = document.getElementById(targetTab);
+            if (selectedTab) {
+                selectedTab.style.display = 'block';
+            }
 
             // Remove active class from all tabs
             tabs.forEach(t => t.classList.remove('active'));
+
             // Add active class to the clicked tab
             tab.classList.add('active');
-
-            // Show default message only if it was visible
-            if (defaultMessageVisible) {
-                const defaultMessage = document.querySelector('.default-message');
-                if (defaultMessage) {
-                    defaultMessage.style.display = 'block';
-                    defaultMessageVisible = true;
-                }
-            }
 
             // Hide toggle button
             toggleButton.style.display = 'none';
 
-            // Show categories
+            // Show categories section
             categoriesSection.style.display = 'flex';
         });
     });
 
+    // Toggle button click event listener
     toggleButton.addEventListener('click', () => {
-        // Hide all page contents and tab descriptions
+        console.log('Toggle button clicked');
+
+        // Hide all page contents
         pageContents.forEach(pageContent => {
             pageContent.style.display = 'none';
         });
+
+        // Hide all tab descriptions
         tabDescriptions.forEach(tabDescription => {
             tabDescription.style.display = 'none';
         });
 
         // Show default message
-        const defaultMessage = document.querySelector('.default-message');
-        if (defaultMessage) {
-            defaultMessage.style.display = 'block';
-            defaultMessageVisible = true;
-        }
+        defaultMessage.style.display = 'block';
+        defaultMessageVisible = true;
 
         // Hide toggle button
         toggleButton.style.display = 'none';
 
-        // Show categories
+        // Show categories section
         categoriesSection.style.display = 'flex';
     });
 
-    // Handle form submission using EmailJS
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-        e.preventDefault();
+    // Contact form submission handler
+    const contactForm = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
 
-        // Initialize EmailJS with your service ID
-        emailjs.init('service_mpphn2l'); // Replace with your EmailJS public key
+    contactForm.addEventListener('submit', (event) => {
+        event.preventDefault(); // Prevent page reload
 
-        // Send the form data using EmailJS
-        emailjs.sendForm('service_mpphn2l', 'template_3g9ookc', this) // Replace 'template_id' with your actual template ID
-            .then(function (response) {
-                console.log('SUCCESS!', response.status, response.text);
-                const formMessage = document.getElementById('formMessage');
-                formMessage.textContent = 'Your message has been sent successfully!';
-                formMessage.style.color = '#4caf50';
-                document.getElementById('contactForm').reset(); // Clear the form
-            }, function (error) {
-                console.error('FAILED...', error);
-                const formMessage = document.getElementById('formMessage');
-                formMessage.textContent = 'There was an error sending your message. Please try again.';
-                formMessage.style.color = '#f44336';
+        // Get form data
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        // Validate form fields
+        if (!firstName || !lastName || !email || !message) {
+            formMessage.textContent = 'Please fill out all fields.';
+            formMessage.style.color = 'red';
+            return;
+        }
+
+        // Define parameters for EmailJS
+        const templateParams = {
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            message: message
+        };
+
+        // Send email using EmailJS
+        emailjs.send('service_npuiodr', 'template_8mapq1a', templateParams)
+            .then((response) => {
+                console.log('Email sent successfully:', response);
+
+                // Provide feedback to the user
+                formMessage.textContent = 'Thank you for contacting me!';
+                formMessage.style.color = 'green';
+
+                // Reset the form
+                contactForm.reset();
+            })
+            .catch((error) => {
+                console.error('Error sending email:', error);
+
+                // Provide feedback to the user
+                formMessage.textContent = 'There was an error sending your message. Please try again later.';
+                formMessage.style.color = 'red';
             });
     });
 });
