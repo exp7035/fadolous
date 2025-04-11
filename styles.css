@@ -16,7 +16,11 @@
 
 body {
     font-family: 'Open Sans', sans-serif;
-    background: linear-gradient(135deg, #1a1a1a, #333333); /* Subtle dark gradient */
+    background-image: url('fadolous.png'); /* Keep the background image */
+    background-size: cover; /* Ensures the image covers the container */
+    background-position: center; /* Centers the image */
+    background-repeat: no-repeat; /* Prevents tiling */
+    background-attachment: scroll; /* Allow the image to scroll naturally */
     color: #fff;
     display: flex;
     justify-content: center;
@@ -28,7 +32,7 @@ body {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    transition: background 0.5s ease; /* Smooth transition for resizing */
+    transition: background-size 0.5s ease; /* Smooth transition for resizing */
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
@@ -474,16 +478,6 @@ footer {
 @keyframes slideIn {
     from { transform: translateY(50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
-}
-
-@keyframes backgroundChange {
-    0% { background: linear-gradient(135deg, #1a1a1a, #333333); }
-    50% { background: linear-gradient(135deg, #222, #444); }
-    100% { background: linear-gradient(135deg, #1a1a1a, #333333); }
-}
-
-body {
-    animation: backgroundChange 10s infinite alternate;
 }
 
 /* Media Queries for Responsive Design */
